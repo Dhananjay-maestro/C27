@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday Princee</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@700&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#fff0f8;
+      --bg2:#e8f7ff;
+      --accent:#ff2d7a;
+      --accent-2:#ff83c7;
+      --muted:#5a5a5a;
+      --card-radius:28px;
+      --card-padding:28px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Poppins,Arial; background:linear-gradient(135deg,var(--bg1),var(--bg2)); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+    .stage{min-height:100vh; width:100vw; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:24px;}
+
+    .glow{position:absolute; border-radius:50%; filter:blur(80px); opacity:0.28; pointer-events:none;}
+    .g1{width:420px;height:420px;background:radial-gradient(circle at 30% 30%,#ffd7ef,transparent 40%);left:-80px;top:-60px}
+    .g2{width:520px;height:520px;background:radial-gradient(circle at 70% 70%,#d8f3ff,transparent 40%);right:-120px;bottom:-100px}
+
+    .card{
+      width:min(920px,94%);
+      max-width:1100px;
+      height:min(680px,86vh);
+      background:linear-gradient(180deg,rgba(255,255,255,0.92),rgba(255,255,255,0.85));
+      border-radius:var(--card-radius);
+      box-shadow:0 30px 80px rgba(20,20,50,0.12);
+      display:flex; gap:24px; padding:var(--card-padding); align-items:center; position:relative;
+      overflow:visible;
+    }
+
+    .left{flex:1; display:flex; justify-content:center; align-items:center; transform:translateX(-12px); pointer-events:none;}
+    .balloon-bunch{width:420px; height:520px; position:relative; pointer-events:none; display:block;}
+
+/* Generic balloon style */
+    .balloon{
+      position:absolute;
+      transform-origin:center bottom;
+      z-index:2;
+      user-select:none;
+      will-change:transform, opacity;
+    }
+
+/* Individual positions and sizes (b1..b9) */
+    .b1{left:2%; bottom:4%; width:150px; animation:floatA 6.6s ease-in-out infinite, swayA 5.6s ease-in-out infinite; z-index:6;}
+    .b2{left:18%; bottom:10%; width:120px; animation:floatB 5.8s ease-in-out infinite, swayB 6.4s ease-in-out infinite; z-index:7; }
+    .b3{left:34%; bottom:6%; width:170px; animation:floatC 6.2s ease-in-out infinite, swayC 5.8s ease-in-out infinite; z-index:8;}
+    .b4{left:52%; bottom:14%; width:110px; animation:floatA 5.6s ease-in-out infinite, swayA 6.2s ease-in-out infinite; z-index:5;}
+    .b5{left:68%; bottom:8%; width:140px; animation:floatB 6.8s ease-in-out infinite, swayB 5.4s ease-in-out infinite; z-index:9;}
+    .b6{left:80%; bottom:12%; width:100px; animation:floatC 5.4s ease-in-out infinite, swayC 6.8s ease-in-out infinite; z-index:4;}
+    .b7{left:44%; bottom:22%; width:95px; animation:floatA 7s ease-in-out infinite, swayB 6s ease-in-out infinite; z-index:10;}
+    .b8{left:10%; bottom:22%; width:85px; animation:floatB 6.4s ease-in-out infinite, swayC 5.2s ease-in-out infinite; z-index:3;}
+    .b9{left:74%; bottom:26%; width:70px; animation:floatC 6.9s ease-in-out infinite, swayA 5.7s ease-in-out infinite; z-index:2;}
+
+/* float keyframes (vertical) */
+    @keyframes floatA{
+      0%{transform:translateY(0) rotate(-4deg)}
+      50%{transform:translateY(-26px) rotate(6deg)}
+      100%{transform:translateY(0) rotate(-4deg)}
+    }
+    @keyframes floatB{
+      0%{transform:translateY(0) rotate(3deg)}
+      50%{transform:translateY(-18px) rotate(-6deg)}
+      100%{transform:translateY(0) rotate(3deg)}
+    }
+    @keyframes floatC{
+      0%{transform:translateY(0) rotate(-2deg)}
+      50%{transform:translateY(-30px) rotate(4deg)}
+      100%{transform:translateY(0) rotate(-2deg)}
+    }
+
+/* gentle horizontal sway */
+    @keyframes swayA{
+      0%{transform:translateX(0)}
+      50%{transform:translateX(8px)}
+      100%{transform:translateX(0)}
+    }
+    @keyframes swayB{
+      0%{transform:translateX(0)}
+      50%{transform:translateX(-8px)}
+      100%{transform:translateX(0)}
+    }
+    @keyframes swayC{
+      0%{transform:translateX(0)}
+      50%{transform:translateX(6px)}
+      100%{transform:translateX(0)}
+    }
+
+    .right{flex:1; padding:16px; display:flex; flex-direction:column;}
+    .badge{font-family:Merienda; color:var(--accent); background:rgba(255,45,122,0.08); padding:8px 14px; border-radius:18px; display:inline-block;}
+
+    h1{font-family:Merienda; font-size:3.1rem; color:var(--accent-2); margin:16px 0 6px; letter-spacing:0.4px;}
+    .subtitle{font-size:1.05rem; color:var(--muted); margin-bottom:18px;}
+
+    .action-row{
+      display:flex;
+      gap:20px;
+      align-items:flex-start;
+    }
+
+    .btn{
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:white; padding:12px 18px;
+      border-radius:24px; border:2px solid var(--accent-2);
+      font-weight:600; cursor:pointer;
+      box-shadow:0 0 14px rgba(255,130,180,0.45);
+      transition:.25s ease;
+      outline: none;
+    }
+    .btn.secondary{
+      background:transparent;
+      color:var(--accent-2);
+      border:2px solid var(--accent-2);
+    }
+
+    .btn:hover{transform:scale(1.07); box-shadow:0 0 20px rgba(255,120,180,0.6);}
+    .btn.secondary:hover{color:var(--accent); border-color:var(--accent); box-shadow:0 0 20px rgba(255,140,200,0.5);}
+
+    .btn:active{transform:scale(.97)}
+    .btn:focus{box-shadow:0 0 0 4px rgba(255,130,180,0.16); border-color:var(--accent)}
+
+    /* cute label (per-button, same style) */
+    .cute-click{
+      margin-top:6px;
+      font-size:0.95rem;
+      text-align:center;
+      color:var(--accent);
+      font-weight:700;
+    }
+
+    #confettiCanvas{position:absolute; left:0; top:0; width:100%; height:100%; pointer-events:none; border-radius:var(--card-radius);}
+
+    .sparkle{
+      position:absolute; width:8px; height:8px; border-radius:50%; background:white;
+      box-shadow:0 0 18px white; opacity:0.85;
+      pointer-events:none;
+    }
+
+    @media(max-width:880px){
+      .card{flex-direction:column; height:auto;}
+      h1{font-size:2.2rem;}
+      .right{text-align:center; align-items:center;}
+      .action-row{justify-content:center;}
+      .balloon-bunch{width:320px;height:420px}
+      .b1{width:120px}
+      .b2{width:100px}
+      .b3{width:140px}
+      .b4{width:95px}
+      .b5{width:120px}
+      .b6{width:90px}
+      .b7{width:82px}
+      .b8{width:72px}
+      .b9{width:62px}
+      .left{transform:translateX(0)}
+    }
+
+    /* Respect reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      .b1, .b2, .b3, .b4, .b5, .b6, .b7, .b8, .b9 { animation: none !important; transform: none !important; }
+      .btn, .btn.secondary { transition: none !important; }
+    }
+
+    .popup-list p { margin:8px 0; word-break:break-word; }
+
+  </style>
+</head>
+<body>
+  <div class="stage" role="main">
+    <div class="glow g1" aria-hidden="true"></div>
+    <div class="glow g2" aria-hidden="true"></div>
+
+    <div class="card" aria-label="Birthday card">
+
+      <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+
+      <!-- UPDATED BALLOON BUNCH: denser, nicer, more varied -->
+      <div class="left" aria-hidden="true">
+        <div class="balloon-bunch" aria-hidden="true">
+
+          <!-- Large center-left -->
+          <svg class="balloon b3" viewBox="0 0 120 180" aria-hidden="true" focusable="false" role="img">
+            <defs>
+              <linearGradient id="pg3" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ffd0e6"/>
+                <stop offset="100%" stop-color="#ff6fb6"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="60" cy="60" rx="48" ry="62" fill="url(#pg3)"/>
+            <ellipse cx="46" cy="44" rx="12" ry="10" fill="rgba(255,255,255,0.5)"/>
+            <path d="M60 130 C57 148 63 152 60 180" stroke="#ff6fb6" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          </svg>
+
+          <!-- Big left-most -->
+          <svg class="balloon b1" viewBox="0 0 120 180" aria-hidden="true" focusable="false" role="img">
+            <defs>
+              <linearGradient id="pg1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ffbcd6"/>
+                <stop offset="100%" stop-color="#ff5ca3"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="60" cy="60" rx="44" ry="58" fill="url(#pg1)"/>
+            <ellipse cx="44" cy="40" rx="10" ry="9" fill="rgba(255,255,255,0.45)"/>
+            <path d="M60 122 C58 140 62 144 60 172" stroke="#ff5ca3" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          </svg>
+
+          <!-- cluster small -->
+          <svg class="balloon b7" viewBox="0 0 80 120" aria-hidden="true" focusable="false" role="img">
+            <defs>
+              <linearGradient id="pg7" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ffd9ee"/>
+                <stop offset="100%" stop-color="#ff83c7"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="40" cy="40" rx="34" ry="44" fill="url(#pg7)"/>
+            <ellipse cx="30" cy="28" rx="7" ry="6" fill="rgba(255,255,255,0.45)"/>
+            <path d="M40 92 C38 106 42 110 40 140" stroke="#ff83c7" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+
+          <!-- center-top small -->
+          <svg class="balloon b4" viewBox="0 0 80 120" aria-hidden="true" focusable="false" role="img">
+            <defs>
+              <linearGradient id="pg4" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ffe6f4"/>
+                <stop offset="100%" stop-color="#ff64ab"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="40" cy="40" rx="30" ry="38" fill="url(#pg4)"/>
+            <ellipse cx="28" cy="28" rx="6" ry="5" fill="rgba(255,255,255,0.45)"/>
+            <path d="M40 88 C38 100 42 104 40 130" stroke="#ff64ab" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          </svg>
+
+          <!-- right cluster -->
+          <svg class="balloon b5" viewBox="0 0 100 140" aria-hidden="true" focusable="false" role="img">
+            <defs>
+              <linearGradient id="pg5" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#fff0f8"/>
+                <stop offset="100%" stop-color="#ff6fb6"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="50" cy="50" rx="40" ry="52" fill="url(#pg5)"/>
+            <ellipse cx="38" cy="36" rx="9" ry="8" fill="rgba(255,255,255,0.45)"/>
+            <path d="M50 118 C48 134 52 138 50 168" stroke="#ff6fb6" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          </svg>
+
+          <!-- small right bottom -->
+          <svg class="balloon b6" viewBox="0 0 80 120" aria-hidden="true" focusable="false" role="img">
+            <defs>
+              <linearGradient id="pg6" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ffdfed"/>
+                <stop offset="100%" stop-color="#ff83c7"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="40" cy="40" rx="30" ry="38" fill="url(#pg6)"/>
+            <ellipse cx="28" cy="30" rx="6" ry="5" fill="rgba(255,255,255,0.45)"/>
+            <path d="M40 90 C38 104 42 108 40 136" stroke="#ff83c7" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          </svg>
+
+          <!-- tiny accent -->
+          <svg class="balloon b2" viewBox="0 0 70 110" aria-hidden="true" focusable="false" role="img">
+            <defs>
+              <linearGradient id="pg2" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ffd6ec"/>
+                <stop offset="100%" stop-color="#ff6fb6"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="35" cy="35" rx="28" ry="34" fill="url(#pg2)"/>
+            <ellipse cx="26" cy="24" rx="5" ry="4" fill="rgba(255,255,255,0.45)"/>
+            <path d="M35 83 C33 96 37 100 35 126" stroke="#ff6fb6" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          </svg>
+
+          <!-- tiny far right -->
+          <svg class="balloon b9" viewBox="0 0 60 100" aria-hidden="true" focusable="false" role="img">
+            <defs>
+              <linearGradient id="pg9" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ffe7f6"/>
+                <stop offset="100%" stop-color="#ff5ca3"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="30" cy="30" rx="24" ry="30" fill="url(#pg9)"/>
+            <ellipse cx="22" cy="20" rx="4" ry="3.5" fill="rgba(255,255,255,0.45)"/>
+            <path d="M30 74 C28 86 32 90 30 116" stroke="#ff5ca3" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          </svg>
+
+        </div>
+      </div>
+
+      <div class="right">
+
+        <div class="badge">For Princee</div>
+        <h1>Happy Birthday <span style="color:var(--accent)">Princee</span><span style="margin-left:-14px;"> 🎀</span></h1>
+        <div class="subtitle">May your day sparkle with smiles, hugs and sweet surprises ✨</div>
+
+        <!-- BOTH BUTTONS WITH LABELS (clean - no duplicates) -->
+        <div class="action-row">
+
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <button class="btn secondary" id="confettiBtn" aria-label="Celebrate">Celebrate🎀</button>
+            <div class="cute-click" aria-hidden="true">Click ↑</div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <button class="btn secondary" id="msgBtn" aria-label="Messages">Messages💬</button>
+            <div class="cute-click" aria-hidden="true">Click ↑</div>
+          </div>
+
+        </div>
+
+      </div>
+      <!-- decorative sparkles -->
+      <div id="sparkles" aria-hidden="true"></div>
+    </div>
+
+  </div>
+
+  <script>
+    /* CONFETTI & POPUP HANDLING preserved from previous final version.
+       Visible text unchanged.
+    */
+
+    const canvas = document.getElementById('confettiCanvas');
+    const ctx = canvas.getContext('2d');
+    let W = 0, H = 0, confetti = [], animationId = null;
+    let resizeTimeout = null;
+
+    function setCanvasSize(){
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+      canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+      canvas.style.width = rect.width + 'px';
+      canvas.style.height = rect.height + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      W = rect.width; H = rect.height;
+    }
+
+    function resizeCanvas(){
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(setCanvasSize, 80);
+    }
+    window.addEventListener('load', resizeCanvas);
+    window.addEventListener('resize', resizeCanvas);
+
+    function rand(min,max){ return Math.random()*(max-min)+min }
+
+    function spawnConfetti(count = 160){
+      const limit = Math.min(count, window.innerWidth < 480 ? 60 : count);
+      for(let i=0;i<limit;i++){
+        confetti.push({
+          x: rand(0, W),
+          y: rand(-H, 0),
+          s: rand(6,12),
+          vx: rand(-1.5,1.5),
+          vy: rand(2,6),
+          c: ['#ff2d7a','#fff176','#8bc34a','#00bcd4','#ff8bcf'][Math.floor(rand(0,5))]
+        });
+      }
+      if(!animationId) animate();
+    }
+
+    function drawConfetti(){
+      ctx.clearRect(0,0,W,H);
+      for(const p of confetti){
+        p.x += p.vx; p.y += p.vy;
+        ctx.fillStyle = p.c;
+        ctx.fillRect(p.x, p.y, p.s, p.s*0.6);
+      }
+      confetti = confetti.filter(p => p.y < H + 40);
+      if(confetti.length === 0){
+        cancelAnimationFrame(animationId);
+        animationId = null;
+        ctx.clearRect(0,0,W,H);
+      }
+    }
+
+    function animate(){
+      animationId = requestAnimationFrame(animate);
+      drawConfetti();
+    }
+
+    function attachHandlers(){
+      const cBtn = document.getElementById('confettiBtn');
+      const mBtn = document.getElementById('msgBtn');
+      if(cBtn){
+        cBtn.onclick = () => { spawnConfetti(180); createSparkles(22); };
+      }
+      if(mBtn){
+        mBtn.onclick = showMessagesPopup;
+      }
+    }
+
+    const sparklesEl = document.getElementById('sparkles');
+    let sparkleCleanupTimer = null;
+    function createSparkles(n){
+      for(let i=0;i<n;i++){
+        const s = document.createElement('div'); s.className = 'sparkle';
+        s.style.left = (10 + Math.random()*80) + '%';
+        s.style.top = (10 + Math.random()*80) + '%';
+        sparklesEl.appendChild(s);
+        const life = 800 + Math.random()*900;
+        s.animate([{opacity:1, transform:'scale(1)'},{opacity:0, transform:'scale(.2)'}], {duration: life, easing:'ease-out'});
+        setTimeout(()=> s.remove(), life);
+      }
+      clearTimeout(sparkleCleanupTimer);
+      sparkleCleanupTimer = setTimeout(()=> {
+        while (sparklesEl.firstChild) sparklesEl.removeChild(sparklesEl.firstChild);
+      }, 4000);
+    }
+
+    function showMessagesPopup(){
+      const activeElem = document.activeElement;
+      const overlay = document.createElement('div');
+      overlay.style.position = 'fixed'; overlay.style.left = 0; overlay.style.top = 0; overlay.style.right = 0; overlay.style.bottom = 0;
+      overlay.style.background = 'rgba(0,0,0,0.45)'; overlay.style.display = 'flex'; overlay.style.alignItems = 'center'; overlay.style.justifyContent = 'center';
+      overlay.style.zIndex = 9999;
+
+      const box = document.createElement('div');
+      box.style.width = 'min(520px,90%)'; box.style.background = 'linear-gradient(180deg,#fff,#fffaf7)'; box.style.borderRadius = '20px';
+      box.style.padding = '20px 22px'; box.style.boxShadow = '0 20px 60px rgba(0,0,0,0.2)'; box.style.textAlign = 'left';
+      box.setAttribute('role','dialog');
+      box.setAttribute('aria-modal','true');
+
+      const title = document.createElement('div'); title.textContent = '💬 for Princess🎂';
+      title.style.fontSize = '18px'; title.style.fontWeight = 700; title.style.marginBottom = '10px';
+
+      const list = document.createElement('div'); list.style.maxHeight = '320px'; list.style.overflow = 'auto'; list.style.paddingRight = '8px';
+      list.className = 'popup-list';
+
+      const messages = [
+        'Happy Birthday My Dear Princee,🍫🍫🎂',
+        'sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry sorry....................................................................... sorry'
+      ];
+      messages.forEach(msg=>{
+        const p = document.createElement('p');
+        p.textContent = msg;
+        p.style.margin = '10px 0';
+        p.style.fontSize = '15px';
+        list.appendChild(p);
+      });
+
+      const close = document.createElement('button'); close.textContent = 'Close';
+      close.style.marginTop = '12px'; close.style.padding = '10px 14px'; close.style.borderRadius = '12px'; close.style.border = '0';
+      close.style.background = 'linear-gradient(90deg,#ff2d7a,#ff83c7)'; close.style.color = 'white'; close.style.fontWeight = 700; close.style.cursor = 'pointer';
+      close.addEventListener('click', ()=>{ overlay.remove(); if(activeElem) activeElem.focus(); });
+
+      function onKey(e){
+        if(e.key === 'Escape'){ overlay.remove(); document.removeEventListener('keydown', onKey); if(activeElem) activeElem.focus(); }
+      }
+      document.addEventListener('keydown', onKey);
+
+      box.appendChild(title); box.appendChild(list); box.appendChild
